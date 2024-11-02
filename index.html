@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Highcharts Bubble Chart</title>
+    <title>Highcharts Temperature Range</title>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -16,22 +16,10 @@
             margin: 0.2em auto;
         }
 
-        .highcharts-background {
-    fill: #f2f2f2 !important;
-    filter: none;
-    x: 0px;
-    y: 0px;
-    width: 800px;
-    height: 385px;
-    rx: 0px;
-    ry: 0px;
-}
         #container {
             height: 400px;
         }
-        .highcharts-tooltip h3 {
-            margin: 0.3em 0;
-        }
+
         .highcharts-data-table table {
             font-family: Verdana, sans-serif;
             border-collapse: collapse;
@@ -41,29 +29,63 @@
             width: 100%;
             max-width: 500px;
         }
+
         .highcharts-data-table caption {
             padding: 1em 0;
             font-size: 1.2em;
             color: #555;
         }
+
         .highcharts-data-table th {
             font-weight: 600;
             padding: 0.5em;
         }
+
         .highcharts-data-table td,
         .highcharts-data-table th,
         .highcharts-data-table caption {
             padding: 0.5em;
         }
+
         .highcharts-data-table thead tr,
         .highcharts-data-table tr:nth-child(even) {
             background: #f8f8f8;
         }
+
         .highcharts-data-table tr:hover {
             background: #f1f7ff;
         }
+
         .highcharts-description {
             margin: 0.3rem 10px;
+        }
+
+        .highcharts-credits {
+            display: none;
+        }
+
+        .highcharts-background {
+            fill: #f2f2f2 !important;
+        }
+
+        .highcharts-no-tooltip.highcharts-button.highcharts-contextbutton {
+            display: none;
+        }
+
+        .highcharts-no-tooltip.highcharts-button.highcharts-contextbutton.highcharts-button-normal {
+            display: none;
+        }
+
+        .highcharts-no-tooltip.highcharts-button.highcharts-contextbutton.highcharts-button-pressed {
+            display: none;
+        }
+
+        .highcharts-contextmenu {
+            display: none;
+        }
+
+        .highcharts-menu {
+            display: none;
         }
     </style>
 </head>
@@ -71,131 +93,124 @@
 
 <figure class="highcharts-figure">
     <div id="container"></div>
-    <p class="highcharts-description">
-        Chart showing basic use of bubble series with a custom tooltip formatter.
-        The chart uses plot lines to show safe intake levels for sugar and fat.
-        Bubble charts are great for comparing three dimensions of data without
-        relying on color or 3D charts.
-    </p>
 </figure>
 
+<!-- Código de Highcharts al final del body -->
 <script>
+    const ranges = [
+        [-4.4, 13.1],
+        [-0.5, 8.9],
+        [-0.6, 5.4],
+        [-4.8, 1.0],
+        [-7.7, 2.5],
+        [-2.6, 6.4],
+        [1.1, 13.4],
+        [1.9, 13.0],
+        [0.6, 11.2],
+        [2.9, 10.4],
+        [2.5, 15.3],
+        [1.5, 17.0],
+        [0.3, 14.6],
+        [2.3, 10.5],
+        [-3.5, 11.0],
+        [-4.8, 12.6],
+        [-4.9, 8.7],
+        [-4.5, 9.1],
+        [1.5, 6.8],
+        [-1.9, 8.4],
+        [-4.2, 11.3],
+        [-4.7, 12.5],
+        [1.8, 10.0],
+        [0.2, 8.0],
+        [-1.0, 10.1],
+        [-0.2, 8.8],
+        [-1.7, 11.7],
+        [-3.4, 9.1],
+        [1.6, 13.8],
+        [-0.9, 14.5]
+    ];
+
+    const averages = [
+        [2.9],
+        [3.4],
+        [0.4],
+        [-3.5],
+        [-2.1],
+        [1.6],
+        [6.0],
+        [7.1],
+        [5.4],
+        [6.4],
+        [7.6],
+        [8.5],
+        [7.4],
+        [6.1],
+        [3.2],
+        [3.7],
+        [1.7],
+        [2.9],
+        [3.2],
+        [2.5],
+        [3.2],
+        [4.4],
+        [5.4],
+        [4.4],
+        [3.6],
+        [4.8],
+        [5.1],
+        [0.9],
+        [6.6],
+        [7.2]
+    ];
+
     Highcharts.chart('container', {
-        chart: {
-            type: 'bubble',
-            plotBorderWidth: 1,
-            zooming: {
-                type: 'xy'
-            }
-        },
-        legend: {
-            enabled: false
-        },
         title: {
-            text: 'Sugar and fat intake per country'
-        },
-        subtitle: {
-            text: 'Source: <a href="http://www.euromonitor.com/">Euromonitor</a> and <a href="https://data.oecd.org/">OECD</a>'
-        },
-        accessibility: {
-            point: {
-                valueDescriptionFormat: '{index}. {point.name}, fat: {point.x}g, ' +
-                    'sugar: {point.y}g, obesity: {point.z}%.'
-            }
+            text: '',
+            align: 'left'
         },
         xAxis: {
-            gridLineWidth: 1,
-            title: {
-                text: 'Daily fat intake'
-            },
-            labels: {
-                format: '{value} gr'
-            },
-            plotLines: [{
-                color: 'black',
-                dashStyle: 'dot',
-                width: 2,
-                value: 65,
-                label: {
-                    rotation: 0,
-                    y: 15,
-                    style: {
-                        fontStyle: 'italic'
-                    },
-                    text: 'Safe fat intake 65g/day'
-                },
-                zIndex: 3
-            }],
+            type: 'datetime',
             accessibility: {
-                rangeDescription: 'Range: 60 to 100 grams.'
+                rangeDescription: 'Range: April 1st 2022 to April 30th 2024.'
             }
         },
         yAxis: {
-            startOnTick: false,
-            endOnTick: false,
             title: {
-                text: 'Daily sugar intake'
-            },
-            labels: {
-                format: '{value} gr'
-            },
-            maxPadding: 0.2,
-            plotLines: [{
-                color: 'black',
-                dashStyle: 'dot',
-                width: 2,
-                value: 50,
-                label: {
-                    align: 'right',
-                    style: {
-                        fontStyle: 'italic'
-                    },
-                    text: 'Safe sugar intake 50g/day',
-                    x: -10
-                },
-                zIndex: 3
-            }],
-            accessibility: {
-                rangeDescription: 'Range: 0 to 160 grams.'
+                text: null
             }
         },
         tooltip: {
-            useHTML: true,
-            headerFormat: '<table>',
-            pointFormat: '<tr><th colspan="2"><h3>{point.country}</h3></th></tr>' +
-                '<tr><th>Fat intake:</th><td>{point.x}g</td></tr>' +
-                '<tr><th>Sugar intake:</th><td>{point.y}g</td></tr>' +
-                '<tr><th>Obesity (adults):</th><td>{point.z}%</td></tr>',
-            footerFormat: '</table>',
-            followPointer: true
+            crosshairs: true,
+            shared: true,
+            valueSuffix: '°C'
         },
         plotOptions: {
             series: {
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.name}'
-                }
+                pointStart: Date.UTC(2024, 4, 1),
+                pointIntervalUnit: 'day'
             }
         },
         series: [{
-            data: [
-                { x: 95, y: 95, z: 13.8, name: 'BE', country: 'Belgium' },
-                { x: 86.5, y: 102.9, z: 14.7, name: 'DE', country: 'Germany' },
-                { x: 80.8, y: 91.5, z: 15.8, name: 'FI', country: 'Finland' },
-                { x: 80.4, y: 102.5, z: 12, name: 'NL', country: 'Netherlands' },
-                { x: 80.3, y: 86.1, z: 11.8, name: 'SE', country: 'Sweden' },
-                { x: 78.4, y: 70.1, z: 16.6, name: 'ES', country: 'Spain' },
-                { x: 74.2, y: 68.5, z: 14.5, name: 'FR', country: 'France' },
-                { x: 73.5, y: 83.1, z: 10, name: 'NO', country: 'Norway' },
-                { x: 71, y: 93.2, z: 24.7, name: 'UK', country: 'United Kingdom' },
-                { x: 69.2, y: 57.6, z: 10.4, name: 'IT', country: 'Italy' },
-                { x: 68.6, y: 20, z: 16, name: 'RU', country: 'Russia' },
-                { x: 65.5, y: 126.4, z: 35.3, name: 'US', country: 'United States' },
-                { x: 65.4, y: 50.8, z: 28.5, name: 'HU', country: 'Hungary' },
-                { x: 63.4, y: 51.8, z: 15.4, name: 'PT', country: 'Portugal' },
-                { x: 64, y: 82.9, z: 31.3, name: 'NZ', country: 'New Zealand' }
-            ],
-            colorByPoint: true
+            name: 'Temperature',
+            data: averages,
+            zIndex: 1,
+            marker: {
+                fillColor: 'white',
+                lineWidth: 2,
+                lineColor: Highcharts.getOptions().colors[0]
+            }
+        }, {
+            name: 'Range',
+            data: ranges,
+            type: 'arearange',
+            lineWidth: 0,
+            linkedTo: ':previous',
+            color: Highcharts.getOptions().colors[0],
+            fillOpacity: 0.3,
+            zIndex: 0,
+            marker: {
+                enabled: false
+            }
         }]
     });
 </script>
