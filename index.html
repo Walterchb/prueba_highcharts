@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Highcharts Temperature Range</title>
+    <!-- Incluye las librerías de Highcharts -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -97,104 +98,109 @@
 
 <!-- Código de Highcharts al final del body -->
 <script>
-    const ranges = [
-    [3.7, 3.8],
-    [3.72, 3.79],
-    [3.71, 3.78],
-    [3.73, 3.76],
-    [3.72, 3.81],
-    [3.74, 3.78],
-    [3.73, 3.77],
-    [3.72, 3.8],
-    [3.71, 3.79],
-    [3.73, 3.78],
-    [3.72, 3.8],
-    [3.72, 3.81],
-    [3.71, 3.8],
-    [3.74, 3.78],
-    [3.73, 3.77],
-    [3.72, 3.8],
-    [3.7, 3.8],
-    [3.72, 3.78],
-    [3.71, 3.8],
-    [3.73, 3.79],
-    [3.72, 3.78]
-];
+    "use strict";
 
-const averages = [
-    [3.75],
-    [3.76],
-    [3.74],
-    [3.75],
-    [3.76],
-    [3.75],
-    [3.76],
-    [3.74],
-    [3.75],
-    [3.76],
-    [3.75],
-    [3.76],
-    [3.75],
-    [3.76],
-    [3.74],
-    [3.75],
-    [3.76],
-    [3.75],
-    [3.76],
-    [3.74],
-    [3.75]
-];
+    var ranges = [
+        [3.7, 3.8],
+        [3.72, 3.79],
+        [3.71, 3.78],
+        [3.73, 3.76],
+        [3.72, 3.81],
+        [3.74, 3.78],
+        [3.73, 3.77],
+        [3.72, 3.8],
+        [3.71, 3.79],
+        [3.73, 3.78],
+        [3.72, 3.8],
+        [3.72, 3.81],
+        [3.71, 3.8],
+        [3.74, 3.78],
+        [3.73, 3.77],
+        [3.72, 3.8],
+        [3.7, 3.8],
+        [3.72, 3.78],
+        [3.71, 3.8],
+        [3.73, 3.79],
+        [3.72, 3.78]
+    ];
 
-Highcharts.chart('container', {
-    title: {
-        text: '',
-        align: 'left'
-    },
-    xAxis: {
-        type: 'datetime',
-        accessibility: {
-            rangeDescription: 'Range: October 10th 2024 to October 31st 2024.'
-        }
-    },
-    yAxis: {
+    var averages = [
+        3.75,
+        3.76,
+        3.74,
+        3.75,
+        3.76,
+        3.75,
+        3.76,
+        3.74,
+        3.75,
+        3.76,
+        3.75,
+        3.76,
+        3.75,
+        3.76,
+        3.74,
+        3.75,
+        3.76,
+        3.75,
+        3.76,
+        3.74,
+        3.75
+    ];
+
+    Highcharts.chart('container', {
         title: {
-            text: null
-        }
-    },
-    tooltip: {
-        crosshairs: true,
-        shared: true,
-        valueSuffix: '°C'
-    },
-    plotOptions: {
-        series: {
-            pointStart: Date.UTC(2024, 9, 10),  // October 10th, 2024
-            pointIntervalUnit: 'day'
-        }
-    },
-    series: [{
-        name: 'Temperature',
-        data: averages,
-        zIndex: 1,
-        marker: {
-            fillColor: 'white',
-            lineWidth: 2,
-            lineColor: Highcharts.getOptions().colors[0]
-        }
-    }, {
-        name: 'Range',
-        data: ranges,
-        type: 'arearange',
-        lineWidth: 0,
-        linkedTo: ':previous',
-        color: Highcharts.getOptions().colors[0],
-        fillOpacity: 0.3,
-        zIndex: 0,
-        marker: {
-            enabled: false
-        }
-    }]
-});
+            text: '',
+            align: 'left'
+        },
+        xAxis: {
+            type: 'datetime',
+            accessibility: {
+                rangeDescription: 'Rango: del 10 al 31 de octubre de 2024.'
+            }
+        },
+        yAxis: {
+            title: {
+                text: null
+            }
+        },
+        tooltip: {
+            crosshairs: true,
+            shared: true,
+            valueSuffix: '°C'
+        },
+        plotOptions: {
+            series: {
+                // Definimos el primer punto el 10 de octubre de 2024
+                pointStart: Date.UTC(2024, 9, 10),
+                // Usamos pointInterval para mayor compatibilidad
+                // 24*3600*1000 = 1 día en milisegundos
+                pointInterval: 24 * 3600 * 1000
+            }
+        },
+        series: [{
+            name: 'Temperature',
+            data: averages,
+            zIndex: 1,
+            marker: {
+                fillColor: 'white',
+                lineWidth: 2,
+                lineColor: Highcharts.getOptions().colors[0]
+            }
+        }, {
+            name: 'Range',
+            data: ranges,
+            type: 'arearange',
+            lineWidth: 0,
+            linkedTo: ':previous',
+            color: Highcharts.getOptions().colors[0],
+            fillOpacity: 0.3,
+            zIndex: 0,
+            marker: {
+                enabled: false
+            }
+        }]
+    });
 </script>
 
 </body>
